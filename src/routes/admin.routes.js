@@ -6,16 +6,16 @@ const validate = require('../middleware/validate.middleware');
 const { Admin } = require('../models/associations'); // Assuming you have associations set up
 
 // GET all admins
-router.get('/', authMiddleware, adminController.getAllAdmins);
+router.get('/', adminController.getAllAdmins);
 
 // GET an admin by ID
 router.get('/:adminId', adminController.getAdminById);
 
 // POST a new admin
-router.post('/', validate(Admin), adminController.createAdmin);
+router.post('/', adminController.createAdmin);
 
 // PUT (update) an admin by ID
-router.put('/:adminId', validate(Admin), adminController.updateAdmin);
+router.put('/:adminId', adminController.updateAdmin);
 
 // DELETE an admin by ID
 router.delete('/:adminId', adminController.deleteAdmin);

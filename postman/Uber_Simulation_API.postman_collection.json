@@ -14,12 +14,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/drivers",
+                            "raw": "{{base_url}}/api/drivers",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "drivers"
@@ -34,12 +34,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/drivers/:ssn",
+                            "raw": "{{base_url}}/api/drivers/:ssn",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "drivers",
@@ -71,12 +71,12 @@
                             "raw": "{\n\t\"ssn\": \"123-45-6789\",\n\t\"firstName\": \"John\",\n\t\"lastName\": \"Doe\",\n\t\"email\": \"john.doe@example.com\",\n\t\"phone\": \"555-123-4567\",\n\t\"address\": \"123 Main St\",\n\t\"city\": \"Anytown\",\n\t\"state\": \"CA\",\n\t\"zip\": \"91234\",\n\t\"licenseNumber\": \"DL12345\",\n\t\"vehicleMake\": \"Toyota\",\n\t\"vehicleModel\": \"Camry\",\n\t\"vehicleYear\": 2020\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/drivers",
+                            "raw": "{{base_url}}/api/drivers",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "drivers"
@@ -100,12 +100,12 @@
                             "raw": "{\n\t\"firstName\": \"Jane\",\n\t\"lastName\": \"Doe\",\n\t\"email\": \"jane.doe@example.com\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/drivers/:ssn",
+                            "raw": "{{base_url}}/api/drivers/:ssn",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "drivers",
@@ -128,12 +128,12 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/drivers/:ssn",
+                            "raw": "{{base_url}}/api/drivers/:ssn",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "drivers",
@@ -161,12 +161,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/customers",
+                            "raw": "{{base_url}}/api/customers",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "customers"
@@ -181,12 +181,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/customers/:ssn",
+                            "raw": "{{base_url}}/api/customers/:ssn",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "customers",
@@ -218,12 +218,12 @@
                             "raw": "{\n\t\"ssn\": \"987-65-4321\",\n\t\"firstName\": \"Jane\",\n\t\"lastName\": \"Smith\",\n\t\"email\": \"jane.smith@example.com\",\n\t\"phone\": \"555-987-6543\",\n\t\"address\": \"456 Elm St\",\n\t\"city\": \"Anytown\",\n\t\"state\": \"CA\",\n\t\"zip\": \"91234\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/customers",
+                            "raw": "{{base_url}}/api/customers",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "customers"
@@ -247,12 +247,12 @@
                             "raw": "{\n\t\"firstName\": \"Janet\",\n\t\"lastName\": \"Smyth\",\n\t\"email\": \"janet.smyth@example.com\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/customers/:ssn",
+                            "raw": "{{base_url}}/api/customers/:ssn",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "customers",
@@ -275,12 +275,12 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/customers/:ssn",
+                            "raw": "{{base_url}}/api/customers/:ssn",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "customers",
@@ -308,12 +308,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/billing",
+                            "raw": "{{base_url}}/api/billing",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "billing"
@@ -328,12 +328,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/billing/:billingId",
+                            "raw": "{{base_url}}/api/billing/:billingId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "billing",
@@ -365,12 +365,12 @@
                             "raw": "{\n\t\"customerSsn\": \"987-65-4321\",\n\t\"paymentMethod\": \"credit_card\",\n\t\"billingDate\": \"2025-04-03\",\n\t\"amount\": 100.00\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/billing",
+                            "raw": "{{base_url}}/api/billing",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "billing"
@@ -394,12 +394,12 @@
                             "raw": "{\n\t\"paymentMethod\": \"paypal\",\n\t\"amount\": 120.00\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/billing/:billingId",
+                            "raw": "{{base_url}}/api/billing/:billingId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "billing",
@@ -422,12 +422,12 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/billing/:billingId",
+                            "raw": "{{base_url}}/api/billing/:billingId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "billing",
@@ -455,12 +455,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/admin",
+                            "raw": "{{base_url}}/api/admin",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "admin"
@@ -475,12 +475,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/admin/:adminId",
+                            "raw": "{{base_url}}/api/admin/:adminId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "admin",
@@ -512,12 +512,12 @@
                             "raw": "{\n\t\"firstName\": \"Admin\",\n\t\"lastName\": \"User\",\n\t\"email\": \"admin@example.com\",\n\t\"password\": \"password\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/admin",
+                            "raw": "{{base_url}}/api/admin",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "admin"
@@ -541,12 +541,12 @@
                             "raw": "{\n\t\"firstName\": \"Super\",\n\t\"lastName\": \"Admin\"\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/admin/:adminId",
+                            "raw": "{{base_url}}/api/admin/:adminId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "admin",
@@ -569,12 +569,12 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/admin/:adminId",
+                            "raw": "{{base_url}}/api/admin/:adminId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "admin",
@@ -602,12 +602,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/rides",
+                            "raw": "{{base_url}}/api/rides",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "rides"
@@ -622,12 +622,12 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/rides/:rideId",
+                            "raw": "{{base_url}}/api/rides/:rideId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "rides",
@@ -659,12 +659,12 @@
                             "raw": "{\n\t\"customerSsn\": \"987-65-4321\",\n\t\"driverSsn\": \"123-45-6789\",\n\t\"startLocation\": \"San Francisco\",\n\t\"endLocation\": \"Oakland\",\n\t\"startTime\": \"2025-04-03T12:00:00.000Z\",\n\t\"endTime\": \"2025-04-03T13:00:00.000Z\",\n\t\"fare\": 50.00\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/rides",
+                            "raw": "{{base_url}}/api/rides",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "rides"
@@ -688,12 +688,12 @@
                             "raw": "{\n\t\"endTime\": \"2025-04-03T14:00:00.000Z\",\n\t\"fare\": 60.00\n}"
                         },
                         "url": {
-                            "raw": "http://localhost:5000/api/rides/:rideId",
+                            "raw": "{{base_url}}/api/rides/:rideId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "rides",
@@ -716,12 +716,12 @@
                         "method": "DELETE",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:5000/api/rides/:rideId",
+                            "raw": "{{base_url}}/api/rides/:rideId",
                             "protocol": "http",
                             "host": [
                                 "localhost"
                             ],
-                            "port": "5000",
+                            "port": "5001",
                             "path": [
                                 "api",
                                 "rides",
@@ -744,7 +744,7 @@
     "variable": [
         {
             "key": "base_url",
-            "value": "http://localhost:5000"
+            "value": "http://localhost:5001"
         },
         {
             "key": "driver_token",
