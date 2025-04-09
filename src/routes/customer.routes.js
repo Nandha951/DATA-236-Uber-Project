@@ -12,7 +12,7 @@ router.get('/', authMiddleware, customerController.getAllCustomers);
 router.get('/:ssn', customerController.getCustomerBySsn);
 
 // POST a new customer
-router.post('/', validate(Customer), customerController.createCustomer);
+router.post('/', customerController.createCustomer);
 
 // PUT (update) a customer by SSN
 router.put('/:ssn', validate(Customer), customerController.updateCustomer);
