@@ -20,7 +20,7 @@ const initializeMySQL = async () => {
         console.log('MySQL connection has been established successfully.');
 
         // Load models before syncing - Import associations which loads all models
-        require('../models/associations'); 
+        require('../models/associations');
 
         await sequelize.sync({ alter: true });
         console.log('All models were synchronized successfully.');

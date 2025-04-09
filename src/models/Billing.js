@@ -10,7 +10,7 @@ const Billing = sequelize.define('Billing', {
         allowNull: false
     },
     customerSsn: {
-        type: DataTypes.STRING(9), // SSN format
+        type: DataTypes.STRING(11), // SSN format
         allowNull: false,
         references: {
             model: Customer,

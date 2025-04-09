@@ -6,7 +6,7 @@ const validate = require('../middleware/validate.middleware');
 const { Customer } = require('../models/associations'); // Assuming you have associations set up
 
 // GET all customers
-router.get('/', authMiddleware, customerController.getAllCustomers);
+router.get('/', customerController.getAllCustomers);
 
 // GET a customer by SSN
 router.get('/:ssn', customerController.getCustomerBySsn);
@@ -15,7 +15,7 @@ router.get('/:ssn', customerController.getCustomerBySsn);
 router.post('/', customerController.createCustomer);
 
 // PUT (update) a customer by SSN
-router.put('/:ssn', validate(Customer), customerController.updateCustomer);
+router.put('/:ssn', customerController.updateCustomer);
 
 // DELETE a customer by SSN
 router.delete('/:ssn', customerController.deleteCustomer);

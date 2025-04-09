@@ -14,7 +14,7 @@ const { Driver } = require('../models/associations'); // Assuming you have assoc
  */
 
 // GET all drivers
-router.get('/', authMiddleware, driverController.getAllDrivers);
+router.get('/', driverController.getAllDrivers);
 
 /**
  * @api {get} /drivers/:ssn Get driver by SSN
@@ -27,7 +27,7 @@ router.get('/', authMiddleware, driverController.getAllDrivers);
  */
 
 // GET a driver by SSN
-router.get('/:ssn', authMiddleware, driverController.getDriverBySsn);
+router.get('/:ssn', driverController.getDriverBySsn);
 
 /**
  * @api {post} /drivers Create a new driver
@@ -51,7 +51,7 @@ router.get('/:ssn', authMiddleware, driverController.getDriverBySsn);
  */
 
 // POST a new driver
-router.post('/', validate(Driver), driverController.createDriver);
+router.post('/', driverController.createDriver);
 
 /**
  * @api {put} /drivers/:ssn Update driver by SSN
@@ -76,7 +76,7 @@ router.post('/', validate(Driver), driverController.createDriver);
  */
 
 // PUT (update) a driver by SSN
-router.put('/:ssn', authMiddleware, validate(Driver), driverController.updateDriver);
+router.put('/:ssn', driverController.updateDriver);
 
 /**
  * @api {delete} /drivers/:ssn Delete driver by SSN
@@ -89,7 +89,7 @@ router.put('/:ssn', authMiddleware, validate(Driver), driverController.updateDri
  */
 
 // DELETE a driver by SSN
-router.delete('/:ssn', authMiddleware, driverController.deleteDriver);
+router.delete('/:ssn', driverController.deleteDriver);
 
 module.exports = router;
 

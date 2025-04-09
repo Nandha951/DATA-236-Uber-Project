@@ -3,7 +3,7 @@ const sequelize = require('../config/database');
 
 const Customer = sequelize.define('Customer', {
     ssn: {
-        type: DataTypes.STRING(9), // SSN format
+        type: DataTypes.STRING(11), // SSN format
         primaryKey: true,
         allowNull: false,
         validate: {
