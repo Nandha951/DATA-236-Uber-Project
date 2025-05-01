@@ -4,31 +4,35 @@ const DriverMedia = require('../models/mongodb/DriverMedia');
 
 // GET all drivers
 exports.getAllDrivers = async (req, res) => {
-    const cacheKey = 'drivers:all';
-
     try {
-        // Try to get the data from the Redis cache
-        const cachedDrivers = await redisClient.get(cacheKey);
-
-        if (cachedDrivers) {
-            // If the data is in the cache, return it
-            console.log('Data retrieved from Redis cache');
-            return res.status(200).json(JSON.parse(cachedDrivers));
-        }
-
-        // If the data is not in the cache, query the database
-        const drivers = await Driver.findAll();
-
-        // Store the data in the Redis cache
-        await redisClient.set(cacheKey, JSON.stringify(drivers), {
-            EX: 60, // Set the cache expiration time to 60 seconds
+        // First try to get the data directly from the database
+        const drivers = await Driver.findAll({
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
 
-        console.log('Data retrieved from database and stored in Redis cache');
-        res.status(200).json(drivers);
+        // Try to cache the result in Redis if available
+        try {
+            const cacheKey = 'drivers:all';
+            await redisClient.set(cacheKey, JSON.stringify(drivers), {
+                EX: 60 // Set the cache expiration time to 60 seconds
+            });
+            console.log('Data stored in Redis cache');
+        } catch (redisError) {
+            // Log Redis error but don't fail the request
+            console.warn('Redis caching failed:', redisError.message);
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: drivers
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Error fetching drivers:', error);
+        return res.status(500).json({
+            status: 'error',
+            message: 'Failed to fetch drivers',
+            error: error.message
+        });
     }
 };
 

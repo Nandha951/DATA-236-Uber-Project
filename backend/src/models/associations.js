@@ -2,6 +2,7 @@ const Customer = require('./Customer');
 const Driver = require('./Driver');
 const Billing = require('./Billing');
 const Ride = require('./Ride');
+const Admin = require('./Admin');
 
 // Define associations
 Customer.hasMany(Billing, { foreignKey: 'customerSsn', as: 'billings' });
@@ -12,4 +13,4 @@ Billing.belongsTo(Customer, { foreignKey: 'customerSsn', as: 'customerBilling' }
 Ride.belongsTo(Customer, { foreignKey: 'customerSsn', as: 'customerRide' });
 Ride.belongsTo(Driver, { foreignKey: 'driverSsn', as: 'driverRide' });
 
-module.exports = { Customer, Driver, Billing, Ride };
+module.exports = { Customer, Driver, Billing, Ride, Admin };
