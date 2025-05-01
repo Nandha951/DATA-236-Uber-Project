@@ -10,7 +10,7 @@ const initializeMongoDB = require('./config/mongodb');
 const { initializeRedis } = require('./config/redis');
 const { initializeKafka } = require('./config/kafka');
 
-// Import routes (to be created)
+// Import routes
 const driverRoutes = require('./routes/driver.routes');
 const customerRoutes = require('./routes/customer.routes');
 const rideRoutes = require('./routes/ride.routes');
@@ -24,10 +24,6 @@ const notFoundHandler = require('./middleware/notFound.middleware');
 const app = express();
 
 // Middleware setup
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // Enable JSON parsing
-
-// Middleware
 app.use(helmet()); // Security headers
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
@@ -37,19 +33,35 @@ app.use(morgan('dev')); // Request logging
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+});
+
+// Root route for API health check
+app.get('/', (req, res) => {
+    res.json({
+        status: 'success',
+        message: 'Uber Simulation API is running',
+        endpoints: {
+            drivers: '/api/drivers',
+            customers: '/api/customers',
+            rides: '/api/rides',
+            billing: '/api/billing',
+            admin: '/api/admin'
+        }
+    });
+});
+
 // Routes
-app.use('/api/drivers', driverRoutes);
-app.use('/api/customers', customerRoutes);
-app.use('/api/billing', billingRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/rides', rideRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/rides', rideRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Error handling
+// Error handling (should be last)
 app.use(notFoundHandler);
 app.use(errorHandler);
 

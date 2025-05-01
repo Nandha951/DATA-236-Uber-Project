@@ -11,7 +11,7 @@ const Ride = sequelize.define('Ride', {
         allowNull: false
     },
     customerSsn: {
-        type: DataTypes.STRING(9), // SSN format
+        type: DataTypes.STRING(11), // SSN format (allow dashes)
         allowNull: false,
         references: {
             model: Customer,
@@ -19,7 +19,7 @@ const Ride = sequelize.define('Ride', {
         }
     },
     driverSsn: {
-        type: DataTypes.STRING(9), // SSN format
+        type: DataTypes.STRING(11), // SSN format (allow dashes)
         allowNull: false,
         references: {
             model: Driver,

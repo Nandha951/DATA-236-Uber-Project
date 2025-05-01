@@ -1,4 +1,4 @@
-const { Ride } = require('../models/associations');
+const { Ride, Customer, Driver } = require('../models/associations');
 const sequelize = require('../config/database');
 const { producer } = require('../config/kafka');
 
@@ -42,32 +42,51 @@ exports.createRide = async (req, res) => {
         const t = await sequelize.transaction();
 
         try {
+            // Validate foreign keys first
+            const customer = await Customer.findByPk(req.body.customerSsn, { transaction: t });
+            if (!customer) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Invalid customerSsn – customer not found' });
+            }
+            const driver = await Driver.findByPk(req.user?.ssn || req.body.driverSsn, { transaction: t });
+            if (!driver) {
+                await t.rollback();
+                return res.status(400).json({ message: 'Invalid driverSsn – driver not found' });
+            }
+
             const ride = await Ride.create({
-                driverSsn: req.user.ssn,
-                ...req.body,
+                driverSsn: driver.ssn,
+                customerSsn: customer.ssn,
+                startLocation: req.body.startLocation,
+                endLocation: req.body.endLocation,
+                startTime: req.body.startTime,
+                endTime: req.body.endTime,
                 fare: fare,
             }, { transaction: t });
 
-            // Produce a message to Kafka
-            const { producer } = require('../config/kafka');
-            await producer.send({
-                topic: 'ride.requested',
-                messages: [
-                    { value: JSON.stringify(ride) },
-                ],
-            });
-
             await t.commit();
 
-            res.status(201).json(ride);
+            // Try to send Kafka message, but don't fail the request if Kafka is down or topic missing
+            try {
+                await producer.send({
+                    topic: 'ride.requested',
+                    messages: [
+                        { value: JSON.stringify(ride) },
+                    ],
+                });
+            } catch (kErr) {
+                console.warn('Kafka produce failed, continuing without blocking ride creation:', kErr.message);
+            }
+
+            return res.status(201).json(ride);
         } catch (error) {
             await t.rollback();
             console.error(error);
-            res.status(500).json({ message: 'Server error' });
+            return res.status(500).json({ message: 'Server error' });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        return res.status(500).json({ message: 'Server error' });
     }
 };
 

@@ -5,92 +5,70 @@ const driverController = require('../controllers/driver.controller');
 const validate = require('../middleware/validate.middleware');
 const { Driver } = require('../models/associations'); // Assuming you have associations set up
 
+// Debug middleware for driver routes
+router.use((req, res, next) => {
+    console.log('=== Driver Route Debug ===');
+    console.log(`Method: ${req.method}`);
+    console.log(`Base URL: ${req.baseUrl}`);
+    console.log(`Path: ${req.path}`);
+    console.log(`Full URL: ${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    console.log('=========================');
+    next();
+});
+
+// Wrap async route handlers with error handling
+const asyncHandler = fn => (req, res, next) => {
+    console.log(`Executing route handler for ${req.method} ${req.originalUrl}`);
+    return Promise.resolve(fn(req, res, next))
+        .catch(error => {
+            console.error('Route Error:', error);
+            next(error);
+        });
+};
+
 /**
- * @api {get} /drivers Get all drivers
+ * @api {get} /api/drivers Get all drivers
  * @apiName GetAllDrivers
  * @apiGroup Driver
- * @apiSuccess {Object[]} drivers List of drivers.
- * @apiError ServerError Internal server error.
+ * @apiSuccess {String} status Success status
+ * @apiSuccess {Object[]} data List of drivers
+ * @apiError {String} status Error status
+ * @apiError {String} message Error message
  */
-
-// GET all drivers
-router.get('/', driverController.getAllDrivers);
+router.get('/', (req, res, next) => {
+    console.log('GET /api/drivers route hit');
+    asyncHandler(driverController.getAllDrivers)(req, res, next);
+});
 
 /**
- * @api {get} /drivers/:ssn Get driver by SSN
+ * @api {get} /api/drivers/:ssn Get driver by SSN
  * @apiName GetDriverBySsn
  * @apiGroup Driver
- * @apiParam {String} ssn Driver's SSN.
- * @apiSuccess {Object} driver Driver object.
- * @apiError NotFound Driver not found.
- * @apiError ServerError Internal server error.
+ * @apiParam {String} ssn Driver's SSN
  */
-
-// GET a driver by SSN
-router.get('/:ssn', driverController.getDriverBySsn);
+router.get('/:ssn', asyncHandler(driverController.getDriverBySsn));
 
 /**
- * @api {post} /drivers Create a new driver
+ * @api {post} /api/drivers Create a new driver
  * @apiName CreateDriver
  * @apiGroup Driver
- * @apiBody {String} ssn Driver's SSN.
- * @apiBody {String} firstName Driver's first name.
- * @apiBody {String} lastName Driver's last name.
- * @apiBody {String} email Driver's email.
- * @apiBody {String} phone Driver's phone.
- * @apiBody {String} address Driver's address.
- * @apiBody {String} city Driver's city.
- * @apiBody {String} state Driver's state.
- * @apiBody {String} zip Driver's zip code.
- * @apiBody {String} licenseNumber Driver's license number.
- * @apiBody {String} vehicleMake Driver's vehicle make.
- * @apiBody {String} vehicleModel Driver's vehicle model.
- * @apiBody {Number} vehicleYear Driver's vehicle year.
- * @apiSuccess {Object} driver Created driver object.
- * @apiError ServerError Internal server error.
  */
-
-// POST a new driver
-router.post('/', driverController.createDriver);
+router.post('/', asyncHandler(driverController.createDriver));
 
 /**
- * @api {put} /drivers/:ssn Update driver by SSN
+ * @api {put} /api/drivers/:ssn Update driver
  * @apiName UpdateDriver
  * @apiGroup Driver
- * @apiParam {String} ssn Driver's SSN.
- * @apiBody {String} firstName Driver's first name.
- * @apiBody {String} lastName Driver's last name.
- * @apiBody {String} email Driver's email.
- * @apiBody {String} phone Driver's phone.
- * @apiBody {String} address Driver's address.
- * @apiBody {String} city Driver's city.
- * @apiBody {String} state Driver's state.
- * @apiBody {String} zip Driver's zip code.
- * @apiBody {String} licenseNumber Driver's license number.
- * @apiBody {String} vehicleMake Driver's vehicle make.
- * @apiBody {String} vehicleModel Driver's vehicle model.
- * @apiBody {Number} vehicleYear Driver's vehicle year.
- * @apiSuccess {Object} driver Updated driver object.
- * @apiError NotFound Driver not found.
- * @apiError ServerError Internal server error.
+ * @apiParam {String} ssn Driver's SSN
  */
-
-// PUT (update) a driver by SSN
-router.put('/:ssn', driverController.updateDriver);
+router.put('/:ssn', asyncHandler(driverController.updateDriver));
 
 /**
- * @api {delete} /drivers/:ssn Delete driver by SSN
+ * @api {delete} /api/drivers/:ssn Delete driver
  * @apiName DeleteDriver
  * @apiGroup Driver
- * @apiParam {String} ssn Driver's SSN.
- * @apiSuccess (204) Success No content.
- * @apiError NotFound Driver not found.
- * @apiError ServerError Internal server error.
+ * @apiParam {String} ssn Driver's SSN
  */
-
-// DELETE a driver by SSN
-router.delete('/:ssn', driverController.deleteDriver);
-
-module.exports = router;
+router.delete('/:ssn', asyncHandler(driverController.deleteDriver));
 
 module.exports = router;
