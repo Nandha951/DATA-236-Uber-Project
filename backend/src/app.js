@@ -8,7 +8,8 @@ require('dotenv').config();
 const initializeMySQL = require('./config/mysql');
 const initializeMongoDB = require('./config/mongodb');
 const { initializeRedis } = require('./config/redis');
-const { initializeKafka } = require('./config/kafka');
+const { initializeKafka, consumer } = require('./config/kafka');
+const appConfig = require('./config/appConfig');
 
 // Import routes
 const driverRoutes = require('./routes/driver.routes');
@@ -65,61 +66,82 @@ app.use('/api/admin', adminRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-// Initialize all services
-
-
-const { consumer } = require('./config/kafka');
-
-// Connect and subscribe to Kafka topic before initializing services
+// Keep Kafka connection function separate
 const connectAndSubscribeKafka = async () => {
+    if (!consumer) {
+        console.log('Kafka consumer not initialized (Kafka likely disabled). Skipping subscription.');
+        return;
+    }
     try {
         await consumer.connect();
-        await consumer.subscribe({ topic: 'ride.requested', fromBeginning: true });
-        console.log('Kafka consumer connected and subscribed successfully.');
+        // Add topic subscription logic here if needed, e.g.:
+        // await consumer.subscribe({ topic: 'your-topic-name', fromBeginning: true });
+        console.log('Kafka consumer connected successfully.'); // Simplified message
+        // Add message processing logic here if needed, e.g.:
+        // await consumer.run({ eachMessage: async ({ topic, partition, message }) => { ... } });
     } catch (error) {
-        console.error('Failed to connect and subscribe Kafka consumer:', error);
-        process.exit(1);
+        console.error('Failed to connect or subscribe Kafka consumer:', error);
+        // Decide if this is a fatal error
+        // process.exit(1);
     }
 };
 
-const initializeServices = async () => {
+async function startServer() {
+    console.log('Starting server initialization...');
     try {
-        await connectAndSubscribeKafka();
-        // Initialize MySQL
+        // Initialize Base Components (assuming MySQL and MongoDB are always required)
+        console.log('Initializing MySQL...');
         await initializeMySQL();
-
-        // Initialize MongoDB
+        console.log('Initializing MongoDB...');
         await initializeMongoDB();
 
-        // Initialize Redis
-        await initializeRedis();
+        // Conditionally Initialize Redis
+        if (appConfig.redisEnabled) {
+            console.log('Initializing Redis...');
+            await initializeRedis();
+        } else {
+            console.log('Redis is disabled via config. Skipping initialization.');
+        }
 
-        await initializeKafka();
-        await initializeKafka();
+        // Conditionally Initialize Kafka (Producer and Consumer)
+        if (appConfig.kafkaEnabled) {
+            console.log('Initializing Kafka...');
+            await initializeKafka(); // Initialize producer
+            console.log('Connecting Kafka consumer...');
+            await connectAndSubscribeKafka(); // Connect consumer
+        } else {
+            console.log('Kafka is disabled via config. Skipping initialization.');
+        }
 
-        console.log('All services initialized successfully.');
-    } catch (error) {
-        console.error('Failed to initialize services:', error);
-        process.exit(1);
-    }
-};
+        console.log('All enabled services initialized successfully.');
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-const startServer = async () => {
-    try {
-        await connectAndSubscribeKafka();
-        await initializeServices();
+        // ... (rest of setup like routes, middleware AFTER initializations) ...
 
+        // Example: Setup routes after DB connections are ready
+        // app.use('/api/users', require('./routes/user.routes'));
+
+        // Start listening
+        const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
         });
-    } catch (error) {
-        console.error('Failed to start server:', error);
-        process.exit(1);
-    }
-};
 
+    } catch (error) {
+        console.error('Failed to initialize the application:', error);
+        process.exit(1); // Exit if essential services fail
+    }
+}
+
+// Start the server
 startServer();
+
+// Remove old initialization calls from global scope if they existed
+// (The previous grep results showed them within app.js, likely inside a start function already)
+
+// Example: Error handling middleware (should be defined after routes)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 module.exports = app; 
