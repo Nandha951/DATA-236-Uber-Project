@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  ride-service:
+    build: .
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+      - MONGODB_URI=mongodb://mongodb:27017/uber-rides
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your-secret-key
+      - USER_SERVICE_URL=http://user-service:3001
+      - FRONTEND_URL=http://localhost:3000
+    depends_on:
+      - mongodb
+      - redis
+      - user-service
+    networks:
+      - uber-network
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - uber-network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - uber-network
+
+  user-service:
+    image: uber-user-service:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - MONGODB_URI=mongodb://mongodb:27017/uber-users
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - mongodb
+    networks:
+      - uber-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  uber-network:
+    driver: bridge 
