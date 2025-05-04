@@ -1,0 +1,860 @@
+{
+    "info": {
+        "_postman_id": "microservices-api-collection",
+        "name": "Microservices API Collection",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "Test all microservices APIs: User, Driver, Ride, Payment. Set `userBaseUrl`, `driverBaseUrl`, `rideBaseUrl`, `paymentBaseUrl`, and `jwtToken` as environment variables."
+    },
+    "item": [
+        {
+            "name": "User Service",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{userBaseUrl}}/api/users/",
+                            "host": [
+                                "{{userBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phoneNumber\": \"1234567890\",\n  \"userType\": \"customer\"\n}"
+                        },
+                        "description": "Register a new user."
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{userBaseUrl}}/api/auth/login",
+                            "host": [
+                                "{{userBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+                        },
+                        "description": "Login and get JWT token."
+                    }
+                },
+                {
+                    "name": "Get All Users",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{userBaseUrl}}/api/users/",
+                            "host": [
+                                "{{userBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users"
+                            ]
+                        },
+                        "description": "Get all users (admin only or as permitted)."
+                    }
+                },
+                {
+                    "name": "Get User By ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{userBaseUrl}}/api/users/:id",
+                            "host": [
+                                "{{userBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                ":id"
+                            ]
+                        },
+                        "description": "Get user by ID. Replace :id with a real user ID."
+                    }
+                },
+                {
+                    "name": "Update User By ID",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{userBaseUrl}}/api/users/:id",
+                            "host": [
+                                "{{userBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                ":id"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"firstName\": \"Jane\"\n}"
+                        },
+                        "description": "Update user by ID. Replace :id with a real user ID."
+                    }
+                },
+                {
+                    "name": "Delete User By ID",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{userBaseUrl}}/api/users/:id",
+                            "host": [
+                                "{{userBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                ":id"
+                            ]
+                        },
+                        "description": "Delete user by ID. Replace :id with a real user ID."
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Driver Service",
+            "item": [
+                {
+                    "name": "Get Driver Root",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/drivers/",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "drivers"
+                            ]
+                        },
+                        "description": "Driver routes root (placeholder)."
+                    }
+                },
+                {
+                    "name": "Register Vehicle",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/vehicles/register",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "vehicles",
+                                "register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"make\": \"Toyota\",\n  \"model\": \"Camry\",\n  \"year\": 2020\n}"
+                        },
+                        "description": "Register a new vehicle for the driver."
+                    }
+                },
+                {
+                    "name": "Get Driver Vehicles",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/vehicles/list",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "vehicles",
+                                "list"
+                            ]
+                        },
+                        "description": "Get all vehicles for the authenticated driver."
+                    }
+                },
+                {
+                    "name": "Get Vehicle Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/vehicles/:vehicleId",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "vehicles",
+                                ":vehicleId"
+                            ]
+                        },
+                        "description": "Get vehicle details by vehicleId. Replace :vehicleId with a real ID."
+                    }
+                },
+                {
+                    "name": "Update Vehicle",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/vehicles/:vehicleId",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "vehicles",
+                                ":vehicleId"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"make\": \"Honda\"\n}"
+                        },
+                        "description": "Update vehicle by vehicleId. Replace :vehicleId with a real ID."
+                    }
+                },
+                {
+                    "name": "Get Documents",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/documents",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "documents"
+                            ]
+                        },
+                        "description": "Get all documents for the authenticated driver."
+                    }
+                },
+                {
+                    "name": "Add Document",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/documents",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "documents"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"type\": \"LICENSE\",\n  \"url\": \"http://example.com/license.pdf\",\n  \"status\": \"PENDING\",\n  \"expiryDate\": \"2025-01-01\"\n}"
+                        },
+                        "description": "Add a new document for the driver."
+                    }
+                },
+                {
+                    "name": "Update Document",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/documents/:index",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "documents",
+                                ":index"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"type\": \"LICENSE\",\n  \"url\": \"http://example.com/license.pdf\",\n  \"status\": \"APPROVED\",\n  \"expiryDate\": \"2026-01-01\"\n}"
+                        },
+                        "description": "Update a document by index. Replace :index with the document's array index."
+                    }
+                },
+                {
+                    "name": "Get Earnings",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/earnings",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "earnings"
+                            ]
+                        },
+                        "description": "Get earnings for the authenticated driver."
+                    }
+                },
+                {
+                    "name": "Register Driver",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{driverBaseUrl}}/api/drivers/register",
+                            "host": [
+                                "{{driverBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "drivers",
+                                "register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"licenseNumber\": \"DL12345\",\n  \"licenseExpiry\": \"2025-12-31\",\n  \"vehicleDetails\": {\n    \"make\": \"Toyota\",\n    \"model\": \"Camry\",\n    \"year\": 2020,\n    \"color\": \"Silver\",\n    \"licensePlate\": \"ABC123\",\n    \"registrationNumber\": \"REG123456\",\n    \"type\": \"SEDAN\",\n    \"capacity\": 4\n  }\n}"
+                        },
+                        "description": "Register a new driver with vehicle details"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Ride Service",
+            "item": [
+                {
+                    "name": "Request Ride",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{rideBaseUrl}}/api/rides/",
+                            "host": [
+                                "{{rideBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rides"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"pickup\": {\n    \"coordinates\": [37.7749, -122.4194],\n    \"address\": \"San Francisco, CA\"\n  },\n  \"dropoff\": {\n    \"coordinates\": [37.3382, -121.8863],\n    \"address\": \"San Jose, CA\"\n  },\n  \"paymentMethod\": \"card\"\n}"
+                        },
+                        "description": "Request a new ride."
+                    }
+                },
+                {
+                    "name": "Get Ride History",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{rideBaseUrl}}/api/rides/history",
+                            "host": [
+                                "{{rideBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rides",
+                                "history"
+                            ]
+                        },
+                        "description": "Get ride history for the authenticated user."
+                    }
+                },
+                {
+                    "name": "Get Ride By ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{rideBaseUrl}}/api/rides/:rideId",
+                            "host": [
+                                "{{rideBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rides",
+                                ":rideId"
+                            ]
+                        },
+                        "description": "Get ride details by rideId. Replace :rideId with a real ride ID."
+                    }
+                },
+                {
+                    "name": "Cancel Ride",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{rideBaseUrl}}/api/rides/:rideId/cancel",
+                            "host": [
+                                "{{rideBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rides",
+                                ":rideId",
+                                "cancel"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"reason\": \"Change of plans\"\n}"
+                        },
+                        "description": "Cancel a ride by rideId. Replace :rideId with a real ride ID."
+                    }
+                },
+                {
+                    "name": "Accept Ride (Driver)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{rideBaseUrl}}/api/rides/:rideId/accept",
+                            "host": [
+                                "{{rideBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rides",
+                                ":rideId",
+                                "accept"
+                            ]
+                        },
+                        "description": "Driver accepts a ride. Replace :rideId with a real ride ID."
+                    }
+                },
+                {
+                    "name": "Update Ride Status (Driver)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{rideBaseUrl}}/api/rides/:rideId/status",
+                            "host": [
+                                "{{rideBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "rides",
+                                ":rideId",
+                                "status"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"completed\"\n}"
+                        },
+                        "description": "Update ride status by rideId. Replace :rideId with a real ride ID."
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Payment Service",
+            "item": [
+                {
+                    "name": "Process Payment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/payments/process",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "process"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"amount\": 100,\n  \"currency\": \"USD\",\n  \"paymentMethod\": \"pm_card_visa\",\n  \"rideId\": \"ride123\"\n}"
+                        },
+                        "description": "Process a payment."
+                    }
+                },
+                {
+                    "name": "Process Refund",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/payments/refund/:transactionId",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "refund",
+                                ":transactionId"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "description": "Process a refund for a transaction. Replace :transactionId with a real ID."
+                    }
+                },
+                {
+                    "name": "Get Payment Methods",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/payments/methods",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "methods"
+                            ]
+                        },
+                        "description": "Get payment methods for the authenticated user."
+                    }
+                },
+                {
+                    "name": "Add Payment Method",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/payments/methods",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "payments",
+                                "methods"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"paymentMethodId\": \"pm_card_visa\"\n}"
+                        },
+                        "description": "Add a payment method for the authenticated user."
+                    }
+                },
+                {
+                    "name": "Get Wallet",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/wallets/",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "wallets"
+                            ]
+                        },
+                        "description": "Get wallet for the authenticated user."
+                    }
+                },
+                {
+                    "name": "Top Up Wallet",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/wallets/topup",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "wallets",
+                                "topup"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"amount\": 50,\n  \"currency\": \"USD\"\n}"
+                        },
+                        "description": "Top up wallet for the authenticated user."
+                    }
+                },
+                {
+                    "name": "Withdraw From Wallet",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/wallets/withdraw",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "wallets",
+                                "withdraw"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"amount\": 20\n}"
+                        },
+                        "description": "Withdraw from wallet for the authenticated user."
+                    }
+                },
+                {
+                    "name": "Get Wallet Transactions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwtToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{paymentBaseUrl}}/api/wallets/transactions",
+                            "host": [
+                                "{{paymentBaseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "wallets",
+                                "transactions"
+                            ]
+                        },
+                        "description": "Get wallet transactions for the authenticated user."
+                    }
+                }
+            ]
+        }
+    ]
+}
