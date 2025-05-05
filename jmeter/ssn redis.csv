@@ -1,0 +1,3 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
+GET New Driver by SSN,10000,0,0,32,0.90,0.010%,1002.90843,1301.51,161.60,1328.9
+TOTAL,10000,0,0,32,0.90,0.010%,1002.90843,1301.51,161.60,1328.9

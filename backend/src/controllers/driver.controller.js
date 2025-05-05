@@ -39,10 +39,38 @@ exports.getAllDrivers = async (req, res) => {
 // GET a driver by SSN
 exports.getDriverBySsn = async (req, res) => {
     try {
-        const driver = await Driver.findByPk(req.params.ssn);
+        const ssn = req.params.ssn;
+        const cacheKey = `driver:${ssn}`;
+
+        // Try to get the driver from Redis cache first
+        try {
+            const cachedDriver = await redisClient.get(cacheKey);
+            if (cachedDriver) {
+                console.log('Driver data retrieved from Redis cache');
+                return res.status(200).json(JSON.parse(cachedDriver));
+            }
+        } catch (redisError) {
+            // Log Redis error but continue with database query
+            console.warn('Redis cache error:', redisError.message);
+        }
+
+        // If not in cache, get from database
+        const driver = await Driver.findByPk(ssn);
         if (!driver) {
             return res.status(404).json({ message: 'Driver not found' });
         }
+
+        // Store in Redis cache with 1-minute expiration
+        try {
+            await redisClient.set(cacheKey, JSON.stringify(driver), {
+                EX: 60 // 1 minute expiration
+            });
+            console.log('Driver data stored in Redis cache');
+        } catch (redisError) {
+            // Log Redis error but don't fail the request
+            console.warn('Redis caching failed:', redisError.message);
+        }
+
         res.status(200).json(driver);
     } catch (error) {
         console.error(error);
