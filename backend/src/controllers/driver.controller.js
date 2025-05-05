@@ -1,6 +1,7 @@
 const { Driver } = require('../models/associations');
 const { redisClient } = require('../config/redis');
 const DriverMedia = require('../models/mongodb/DriverMedia');
+const metricsTracker = require('../utils/metrics');
 
 // GET all drivers
 exports.getAllDrivers = async (req, res) => {
@@ -38,25 +39,41 @@ exports.getAllDrivers = async (req, res) => {
 
 // GET a driver by SSN
 exports.getDriverBySsn = async (req, res) => {
-    try {
-        const ssn = req.params.ssn;
-        const cacheKey = `driver:${ssn}`;
+    const startTime = Date.now();
+    const ssn = req.params.ssn;
+    const cacheKey = `driver:${ssn}`;
 
+    try {
         // Try to get the driver from Redis cache first
         try {
             const cachedDriver = await redisClient.get(cacheKey);
             if (cachedDriver) {
+                const responseTime = Date.now() - startTime;
+                metricsTracker.addMetric({
+                    endpoint: '/api/drivers/:ssn',
+                    method: 'GET',
+                    source: 'redis',
+                    responseTime,
+                    status: 'success'
+                });
                 console.log('Driver data retrieved from Redis cache');
                 return res.status(200).json(JSON.parse(cachedDriver));
             }
         } catch (redisError) {
-            // Log Redis error but continue with database query
             console.warn('Redis cache error:', redisError.message);
         }
 
         // If not in cache, get from database
         const driver = await Driver.findByPk(ssn);
         if (!driver) {
+            const responseTime = Date.now() - startTime;
+            metricsTracker.addMetric({
+                endpoint: '/api/drivers/:ssn',
+                method: 'GET',
+                source: 'database',
+                responseTime,
+                status: 'not_found'
+            });
             return res.status(404).json({ message: 'Driver not found' });
         }
 
@@ -67,12 +84,28 @@ exports.getDriverBySsn = async (req, res) => {
             });
             console.log('Driver data stored in Redis cache');
         } catch (redisError) {
-            // Log Redis error but don't fail the request
             console.warn('Redis caching failed:', redisError.message);
         }
 
+        const responseTime = Date.now() - startTime;
+        metricsTracker.addMetric({
+            endpoint: '/api/drivers/:ssn',
+            method: 'GET',
+            source: 'database',
+            responseTime,
+            status: 'success'
+        });
+
         res.status(200).json(driver);
     } catch (error) {
+        const responseTime = Date.now() - startTime;
+        metricsTracker.addMetric({
+            endpoint: '/api/drivers/:ssn',
+            method: 'GET',
+            source: 'error',
+            responseTime,
+            status: 'error'
+        });
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
@@ -118,5 +151,19 @@ exports.deleteDriver = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Add a new endpoint to generate metrics report
+exports.generateMetricsReport = async (req, res) => {
+    try {
+        const reportPath = await metricsTracker.generateExcelReport();
+        res.status(200).json({
+            message: 'Metrics report generated successfully',
+            reportPath
+        });
+    } catch (error) {
+        console.error('Error generating metrics report:', error);
+        res.status(500).json({ message: 'Failed to generate metrics report' });
     }
 };

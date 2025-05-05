@@ -17,6 +17,7 @@ const customerRoutes = require('./routes/customer.routes');
 const rideRoutes = require('./routes/ride.routes');
 const billingRoutes = require('./routes/billing.routes');
 const adminRoutes = require('./routes/admin.routes');
+const metricsRoutes = require('./routes/metrics.routes');
 
 // Import middleware
 const errorHandler = require('./middleware/error.middleware');
@@ -50,7 +51,8 @@ app.get('/', (req, res) => {
             customers: '/api/customers',
             rides: '/api/rides',
             billing: '/api/billing',
-            admin: '/api/admin'
+            admin: '/api/admin',
+            metrics: '/api/metrics'
         }
     });
 });
@@ -61,6 +63,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/rides', rideRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/metrics', metricsRoutes);
 
 // Error handling (should be last)
 app.use(notFoundHandler);

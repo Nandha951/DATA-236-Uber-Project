@@ -1,11 +1,16 @@
 const jwt = require('jsonwebtoken');
 
-// Replace with your actual user details and secret
+// Admin user details
 const user = {
-  id: 'user_id_here', // Replace with actual user ID
-  role: 'admin' // or 'driver', 'customer'
+  id: 'admin_1',
+  role: 'admin',
+  email: 'admin@example.com'
 };
 
-const token = jwt.sign(user, 'your_jwt_secret_here', { expiresIn: '1h' });
+// Use a consistent secret
+const secret = 'your_jwt_secret_here';
+
+// Generate token with 1 hour expiration
+const token = jwt.sign(user, secret, { expiresIn: '1h' });
 
 console.log('Generated Token:', token); 

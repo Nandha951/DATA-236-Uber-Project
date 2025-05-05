@@ -14,8 +14,8 @@ const authMiddleware = async (req, res, next) => {
 
         const token = authHeader.split(' ')[1];
 
-        // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // Verify token with consistent secret
+        const decoded = jwt.verify(token, 'your_jwt_secret_here');
 
         // Get user based on role
         let user;

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authMiddleware } = require('../middleware/auth.middleware');
+const { authMiddleware, authorize } = require('../middleware/auth.middleware');
 const driverController = require('../controllers/driver.controller');
 const validate = require('../middleware/validate.middleware');
 const { Driver } = require('../models/associations'); // Assuming you have associations set up
@@ -70,5 +70,8 @@ router.put('/:ssn', asyncHandler(driverController.updateDriver));
  * @apiParam {String} ssn Driver's SSN
  */
 router.delete('/:ssn', asyncHandler(driverController.deleteDriver));
+
+// Add the new route for generating metrics report
+router.get('/metrics/report', authMiddleware, authorize('admin'), driverController.generateMetricsReport);
 
 module.exports = router;

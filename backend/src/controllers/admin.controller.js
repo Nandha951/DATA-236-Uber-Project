@@ -1,4 +1,5 @@
 const { Admin } = require('../models/associations'); // Assuming you have associations set up
+const bcrypt = require('bcryptjs');
 
 // GET all admins
 exports.getAllAdmins = async (req, res) => {
@@ -63,5 +64,33 @@ exports.deleteAdmin = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Create initial admin user
+exports.createInitialAdmin = async () => {
+    try {
+        // Check if admin already exists
+        const existingAdmin = await Admin.findOne({
+            where: { email: 'admin@example.com' }
+        });
+
+        if (existingAdmin) {
+            return existingAdmin;
+        }
+
+        // Create new admin
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        const admin = await Admin.create({
+            firstName: 'Admin',
+            lastName: 'User',
+            email: 'admin@example.com',
+            password: hashedPassword
+        });
+
+        return admin;
+    } catch (error) {
+        console.error('Error creating initial admin:', error);
+        throw error;
     }
 };
