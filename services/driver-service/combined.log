@@ -241,3 +241,5 @@
 {"level":"info","message":"Connected to MongoDB","timestamp":"2025-05-07T09:00:09.218Z"}
 {"level":"info","message":"Driver service listening on port 3001","timestamp":"2025-05-07T09:03:32.604Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2025-05-07T09:03:32.616Z"}
+{"level":"info","message":"Driver service listening on port 3001","timestamp":"2025-05-07T09:20:07.176Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-05-07T09:20:07.195Z"}

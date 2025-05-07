@@ -33,7 +33,7 @@ export const updateStatus = createAsyncThunk(
     async (status, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.put('/drivers/status', { status });
-            return response.data.data;
+            return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update status');
         }
