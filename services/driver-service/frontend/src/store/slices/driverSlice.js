@@ -21,7 +21,7 @@ export const updateLocation = createAsyncThunk(
     async (locationData, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.put('/drivers/location', locationData);
-            return response.data.data.location;
+            return response.data.currentLocation;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update location');
         }
