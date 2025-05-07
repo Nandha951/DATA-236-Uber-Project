@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  admin-service:
+    build:
+      context: ./services/admin-service
+    ports:
+      - "3010:3010" # Example port mapping, adjust as needed
+    # Add environment variables, volumes, dependencies (depends_on) here if necessary
+
+  billing-service:
+    build:
+      context: ./services/billing-service
+    ports:
+      - "3011:3011" # Example port mapping, adjust as needed
+    # Add environment variables, volumes, dependencies (depends_on) here if necessary
+
+  customer-service:
+    build:
+      context: ./services/customer-service
+    ports:
+      - "3012:3012" # Example port mapping, adjust as needed
+    # Add environment variables, volumes, dependencies (depends_on) here if necessary
+
+  driver-service:
+    build:
+      context: ./services/driver-service
+    ports:
+      - "3013:3013" # Example port mapping, adjust as needed
+    # Add environment variables, volumes, dependencies (depends_on) here if necessary
+
+  ride-service:
+    build:
+      context: ./services/ride-service
+    ports:
+      - "3014:3014" # Example port mapping, adjust as needed
+    # Add environment variables, volumes, dependencies (depends_on) here if necessary
+
+# Add networks or volumes sections if needed
