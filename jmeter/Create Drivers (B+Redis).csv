@@ -1,0 +1,3 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
+POST Create Driver,10000,1,0,53,2.37,0.010%,998.70169,1300.93,503.17,1333.9
+TOTAL,10000,1,0,53,2.37,0.010%,998.70169,1300.93,503.17,1333.9

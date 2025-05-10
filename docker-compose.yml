@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+  customer-service:
+    build:
+      context: ./services/customer-service
+    container_name: customer-service-v2
+    ports:
+      - "3012:3012"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/uber
+    depends_on:
+      - mongodb
+    volumes:
+      - ./services/customer-service:/app
+    command: npm run dev
+    networks:
+      - app-network
+
+  admin-service:
+    build:
+      context: ./services/admin-service
+    container_name: admin-service-v2
+    ports:
+      - "3013:3013"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/uber
+    depends_on:
+      - mongodb
+    volumes:
+      - ./services/admin-service:/app
+    command: npm run dev
+    networks:
+      - app-network
+
+  billing-service:
+    build:
+      context: ./services/billing-service
+    container_name: billing-service-v2
+    ports:
+      - "3014:3011"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/uber
+    depends_on:
+      - mongodb
+    command: npm start
+    networks:
+      - app-network
+
+  driver-service:
+    build:
+      context: ./services/driver-service
+    container_name: driver-service-v2
+    ports:
+      - "3015:3015"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/uber
+    depends_on:
+      - mongodb
+    volumes:
+      - ./services/driver-service:/app
+    command: npm run dev
+    networks:
+      - app-network
+
+  ride-service:
+    build:
+      context: ./services/ride-service
+    container_name: ride-service-v2
+    ports:
+      - "3016:3016"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/uber
+    depends_on:
+      - mongodb
+    volumes:
+      - ./services/ride-service:/app
+    command: npm run dev
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  ml-service:
+    build:
+      context: ./services/billing-service/ml
+      dockerfile: Dockerfile
+    container_name: ml-service
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+
+networks:
+  app-network:
+    driver: bridge
