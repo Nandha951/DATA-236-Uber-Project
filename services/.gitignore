@@ -1,0 +1,6 @@
+services/admin/node_modules
+services/billing/node_modules
+services/customer/node_modules
+services/driver/node_modules
+services/rides/node_modules/*
+/Users/spartan/SJSU/DATA_236/Final Project/services/rides/node_modules

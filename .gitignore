@@ -1,0 +1,13 @@
+services/admin/node_modules
+services/billing/node_modules
+services/customers/node_modules
+services/drivers/node_modules
+services/rides/node_modules
+uber-frontend/node_modules
+services/admin/.env
+services/billing/.env
+services/customers/.env
+services/drivers/.env
+services/rides/.env
+uber-frontend/.env
+node_modules/

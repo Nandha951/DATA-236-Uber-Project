@@ -1,11 +1,12 @@
 {
   "dependencies": {
-    "@react-google-maps/api": "^2.20.6",
-    "@reduxjs/toolkit": "^2.8.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.5.0",
-    "react-redux": "^9.2.0",
-    "react-toastify": "^11.0.5"
+    "react-router-dom": "^7.6.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.3.0"
+  },
+  "scripts": {
+    "test": "mocha test/**/*.test.js"
   }
 }
