@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rides-deployment
+  labels:
+    app: rides-service
+spec:
+  replicas: 2 # Start with 2 replicas, adjust as needed
+  selector:
+    matchLabels:
+      app: rides-service
+  template:
+    metadata:
+      labels:
+        app: rides-service
+    spec:
+      containers:
+      - name: rides-service
+        image: your-docker-registry/rides-service:latest # <-- TODO: Replace with your actual image path
+        ports:
+        - containerPort: 3000 # Port exposed in the Dockerfile
+        env:
+        # Add any necessary environment variables here
+        # Example:
+        # - name: DATABASE_URL
+        #   value: "your-database-url"
+        # - name: KAFKA_BROKERS
+        #   value: "kafka-service:9092" # Assuming Kafka service will be named kafka-service
+        # - name: REDIS_HOST
+        #   value: "redis-service" # Assuming a Redis service will be named redis-service
+        # - name: NODE_ENV
+        #   value: "production"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m" 

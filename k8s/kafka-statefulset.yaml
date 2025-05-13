@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+  labels:
+    app: kafka
+spec:
+  serviceName: "kafka-service" # Must match the headless service name
+  replicas: 1 # For production, use at least 3 replicas
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      terminationGracePeriodSeconds: 30 # Allow more time for Kafka to shut down gracefully
+      containers:
+      - name: kafka-broker
+        image: confluentinc/cp-kafka:latest
+        ports:
+        - containerPort: 9093
+          name: plaintext
+        env:
+        - name: KAFKA_BROKER_ID
+          # In a multi-replica setup, this should be derived from the pod's ordinal index (e.g., using Downward API)
+          value: "1"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          # Assumes Zookeeper service is named 'zookeeper-service' and runs on port 2182
+          value: "zookeeper-service:2182"
+        - name: KAFKA_LISTENERS
+          # Listener for internal cluster communication
+          value: "PLAINTEXT://:9093"
+        - name: KAFKA_ADVERTISED_LISTENERS
+          # How clients outside the pod connect. Using the service name is simplest for single replica.
+          # For multi-replica, this MUST be dynamic per-pod (e.g., PLAINTEXT://$(POD_NAME).kafka-service.$(NAMESPACE).svc.cluster.local:9093)
+          value: "PLAINTEXT://kafka-service:9093"
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          # Should be <= number of replicas. Set to 1 for single replica setup.
+          value: "1"
+        - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+          value: "true"
+        # Add other necessary Kafka configurations as environment variables
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1000m" # 1 CPU core
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: kafka-data
+          mountPath: /var/lib/kafka/data
+  volumeClaimTemplates:
+  - metadata:
+      name: kafka-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ] # Assumes storage that supports ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi # Adjust storage size as needed 

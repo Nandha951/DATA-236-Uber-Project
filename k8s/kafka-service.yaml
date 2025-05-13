@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service # Stable network ID for Kafka brokers and used by clients
+  labels:
+    app: kafka
+spec:
+  ports:
+  - name: plaintext
+    port: 9093 # Kafka PLAINTEXT port
+    targetPort: 9093
+  # If you had internal listeners on a different port (e.g., 9092 from some examples)
+  # you might add it here too. For now, assuming 9093 is the primary.
+  clusterIP: None # Indicates a headless service
+  selector:
+    app: kafka # Selects the Kafka pods managed by the StatefulSet 

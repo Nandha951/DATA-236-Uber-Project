@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: uber-frontend # Must match the labels in the Deployment
+  ports:
+    - protocol: TCP
+      port: 80 # Port the service will be available on
+      targetPort: 80 # Port the Nginx container is listening on
+  # Use LoadBalancer for external access (requires cloud provider support)
+  # Alternatively, use NodePort or ClusterIP with an Ingress controller
+  type: LoadBalancer 

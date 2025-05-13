@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drivers-deployment
+  labels:
+    app: drivers-service
+spec:
+  replicas: 2 # Start with 2 replicas, adjust as needed
+  selector:
+    matchLabels:
+      app: drivers-service
+  template:
+    metadata:
+      labels:
+        app: drivers-service
+    spec:
+      containers:
+      - name: drivers-service
+        image: your-docker-registry/drivers-service:latest # <-- TODO: Replace with your actual image path
+        ports:
+        - containerPort: 3000 # Port exposed in the Dockerfile (assuming 3000)
+        env:
+        # Add any necessary environment variables here
+        # Example:
+        # - name: DATABASE_URL
+        #   value: "your-database-url"
+        # - name: KAFKA_BROKERS
+        #   value: "kafka-service:9092"
+        # - name: REDIS_HOST
+        #   value: "redis-service"
+        # - name: NODE_ENV
+        #   value: "production"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m" 

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  serviceName: "zookeeper-service" # Must match the headless service name
+  replicas: 1 # For production, use at least 3 replicas
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: zookeeper
+        image: confluentinc/cp-zookeeper:latest
+        ports:
+        - containerPort: 2182
+          name: client
+        env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2182"
+        - name: ZOOKEEPER_TICK_TIME
+          value: "2000"
+        # For a multi-node setup, you'd need ZOOKEEPER_SERVER_ID and ZOOKEEPER_SERVERS
+        # This basic setup is for a single node.
+        # ZOOKEEPER_SERVER_ID would typically be derived from the pod's ordinal index.
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        volumeMounts:
+        - name: zookeeper-data
+          mountPath: /var/lib/zookeeper/data
+        - name: zookeeper-log
+          mountPath: /var/lib/zookeeper/log
+  volumeClaimTemplates:
+  - metadata:
+      name: zookeeper-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi # Adjust storage size as needed
+  - metadata:
+      name: zookeeper-log
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi # Adjust storage size as needed 

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-pricing-model-deployment
+  labels:
+    app: dynamic-pricing-model-service
+spec:
+  replicas: 1 # Adjust replicas as needed
+  selector:
+    matchLabels:
+      app: dynamic-pricing-model-service
+  template:
+    metadata:
+      labels:
+        app: dynamic-pricing-model-service
+    spec:
+      containers:
+      - name: dynamic-pricing-model-service
+        image: your-docker-registry/dynamic-pricing-model-service:latest # <-- TODO: Replace with your actual image path
+        ports:
+        - containerPort: 3000 # Port exposed in the Dockerfile (assuming 3000)
+        env:
+        # Add any necessary environment variables here
+        # Example:
+        # - name: KAFKA_BROKERS
+        #   value: "kafka-service:9092"
+        # - name: OTHER_MODEL_PARAM
+        #   value: "param_value"
+        # - name: NODE_ENV
+        #   value: "production"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m" 

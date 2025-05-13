@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-service # Stable network ID for Zookeeper pods
+  labels:
+    app: zookeeper
+spec:
+  ports:
+  - name: client
+    port: 2182 # Zookeeper client port
+    targetPort: 2182
+  clusterIP: None # Indicates a headless service
+  selector:
+    app: zookeeper # Selects the Zookeeper pods managed by the StatefulSet 

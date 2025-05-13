@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: uber-frontend
+spec:
+  replicas: 2 # Start with 2 replicas for the frontend
+  selector:
+    matchLabels:
+      app: uber-frontend
+  template:
+    metadata:
+      labels:
+        app: uber-frontend
+    spec:
+      containers:
+      - name: uber-frontend
+        image: your-docker-registry/uber-frontend:latest # <-- TODO: Replace with your actual image path
+        ports:
+        - containerPort: 80 # Nginx port exposed in the Dockerfile
+        env:
+        # Frontend might need env vars to locate backend services
+        # Often handled during build time or via config files fetched at runtime
+        # Example if needed at runtime:
+        # - name: REACT_APP_API_BASE_URL
+        #   value: "http://api-gateway-service" # Or specific service URLs
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+          requests:
+            memory: "64Mi"
+            cpu: "100m" 
